@@ -1,41 +1,39 @@
 # atomic-red-team
 # T1525 -  Implant Internal Image
 ## [Description from ATT&CK](https://attack.mitre.org/techniques/T1525/)
-<blockquote>An attacker can easily implant cloud or container images once they have gained access to a system in order to obtain persistence. This method concentrates on adversaries inserting an image in a registry within a victim's environment,
-as opposed to Upload Malware. If the infrastructure provisioning tool is told to always utilise the most recent image, this can offer persistent access depending on how the infrastructure is set up.</blockquote>
+<blockquote>An attacker can easily implant cloud or container images once they have gained access to a system in order to obtain persistence. This method concentrates on adversaries inserting an image in a registry within a victim's environment, as opposed to Upload Malware. If the infrastructure provisioning tool is told to always utilise the most recent image, this can offer persistent access depending on how the infrastructure is set up.</blockquote>
 
 ## Atomic Tests
 
-- [Atomic Test #1 - ContainerResourceDiscovery](#atomic-test-1---ContainerResourceDiscovery)
+- [Atomic Test #1 - Implant Internal Image](#atomic-test-1---ImplantInternalImage)
 
 
 <br/>
 
-## Atomic Test #1 - ContainerResourceDiscovery
-Adversaries may attempt to discover containers and other resources that are available within a containers environment. 
+## Atomic Test #1 - ImplantInternalImage
+Adversaries may attempt to implant any sort of malicious code or any other thing which gives persistent to the adversary over the containers.
 
-**Supported Platforms:** docker
+**Supported Platforms:** container
 
-
-**auto_generated_guid:** 
 
 
 #### Attack Commands: Run with `bash`! 
 
 
 ```bash
-docker ps
-docker logs --tail 10 $(docker ps -l -q --filter ancestor=t1613)
-docker stats --no-stream
-docker inspect $(docker ps -a -q --filter ancestor=t1613)
+   docker run -d  --name T1525_container -itt alpine:3 sh -c "echo '1' > /tmp/test "
+   docker commit T1525_container my-alpine
+
 
 ```
 
 #### Cleanup Commands:
 ```bash
-docker stop T1525_container
-docker rmi -f alpine:3
-docker rmi -f my-alpine
+      docker stop T1525_container
+      docker rm -f T1525_container
+      docker rmi -f alpine:3
+      docker rmi -f my-alpine
+
 ```
 
 
@@ -58,13 +56,6 @@ which docker
 docker ps
 
 ```
-##### Get Prereq Commands:
-```bash
-docker build -t t1613 /src
-docker run -d -t t1613
-
-```
-
 
 
 
