@@ -29,10 +29,10 @@ Adversaries may attempt to implant any sort of malicious code or any other thing
 
 #### Cleanup Commands:
 ```bash
-      docker stop T1525_container
-      docker rm -f T1525_container
-      docker rmi -f alpine:3
-      docker rmi -f my-alpine
+    docker stop T1525_container
+    docker rm -f T1525_container
+    docker rmi -f alpine:3
+    docker rmi -f my-alpine
 
 ```
 
