@@ -1,0 +1,23 @@
+---
+attack_technique: T1525
+display_name: "Implant Internal Image"
+atomic_tests:
+- name: ImplantInternalImage
+  description:  If the infrastructure provisioning tool is told to always utilise the most recent image, this can offer persistent access depending on how the infrastructure is set up.
+  supported_platforms:
+  - containers
+  dependency_executor_name: sh
+  dependencies:
+  - description: Docker should be installed
+    prereq_command: which docker
+    get_prereq_command: echo "Install docker manually"
+  executor:
+    command: |-
+      docker run -d  --name T1525_container -itt alpine:3 sh -c "echo '1' > /tmp/test "
+      docker commit T1525_container my-alpine
+    cleanup_command: |-
+      docker stop T1525_container
+      docker rm -f T1525_container
+      docker rmi -f alpine:3
+      docker rmi -f my-alpine
+    name: bash
